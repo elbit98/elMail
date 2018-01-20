@@ -1,27 +1,16 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('post', 'PostController');
-
-Route::resource('bunches', 'BunchesController');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', 'BunchController@index');
+    Route::get('/home', 'BunchController@index')->name('home');
+    Route::resource('bunch', 'BunchController');
+    Route::resource('subscriber', 'SubscriberController');
+    Route::group(['prefix' => 'bunch/{bunch_id}/', 'as' => 'bunch::'], function () {
+    Route::resource('subscriber', 'SubscriberController');
+    });
+    Route::resource('templates', 'TemplateController');
+    Route::resource('campaigns', 'CampaignController');
+    Route::get('/campaigns/{campaign}/send', 'CampaignController@send');
+    Route::get('/campaigns/{campaign}/preview', 'CampaignController@preview');
+});

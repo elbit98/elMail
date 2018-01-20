@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Requests;
-
 use Illuminate\Foundation\Http\FormRequest;
-
-class PostRequest extends FormRequest
+class CampaignRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +12,6 @@ class PostRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,8 +19,6 @@ class PostRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'message' => 'required|min:1|max:45',
-        ];
+        return ['name' => 'required|min:5|max:200'];
     }
 }
